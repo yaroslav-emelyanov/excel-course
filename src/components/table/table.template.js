@@ -3,18 +3,26 @@ const CODES = {
   Z: 90
 };
 
-function createCell() {
-  return `<div class="cell" contenteditable></div>`;
+function createCell(_, col) {
+  return `<div class="cell" contenteditable data-col="${col}"></div>`;
 }
 
-function createColumn(col) {
-  return `<div class="column">${col}</div>`;
+function createColumn(col, index) {
+  return `<div class="column" data-type="resizable" data-col="${index}">
+            ${col}
+            <div class="col-resize" data-resize="col"></div>
+          </div>`;
 }
 
 function createRow(index, content) {
+  const resize = index
+      ? '<div class="row-resize" data-resize="row"></div>' : '';
   return `
-    <div class="row" >
-      <div class="row-info">${index || ''}</div>
+    <div class="row" data-type="resizable">
+      <div class="row-info">
+        ${index || ''}
+        ${resize}
+      </div>
       <div class="row-data">${content}</div>
     </div>
 `;
@@ -47,35 +55,3 @@ export function createTable(rowsCount = 15) {
 
   return rows.join('');
 }
-
-/*
-`<div class="row">
-                <div class="row-info"></div>
-                <div class="row-data">
-                    <div class="column">
-                        A
-                    </div>
-                    <div class="column">
-                        B
-                    </div>
-                    <div class="column">
-                        C
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="row-info">1</div>
-                <div class="row-data">
-                    <div class="cell selected" contenteditable>A1</div>
-                    <div class="cell" contenteditable>B2</div>
-                    <div class="cell" contenteditable>C3</div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="row-info">2</div>
-                <div class="row-data">
-                    <div class="cell" contenteditable>A1</div>
-                    <div class="cell" contenteditable>B2</div>
-                    <div class="cell" contenteditable>C3</div>
-                </div>
-            </div>`;*/
